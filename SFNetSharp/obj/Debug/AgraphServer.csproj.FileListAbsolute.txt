@@ -1,0 +1,9 @@
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\bin\Debug\AgraphServer.exe.config
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\bin\Debug\AgraphServer.exe
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\bin\Debug\AgraphServer.pdb
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\obj\Debug\AgraphServer.csprojResolveAssemblyReference.cache
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\obj\Debug\AgraphServer.exe
+c:\users\joelc\onedrive\documents\visual studio 2015\Projects\AgraphServer\AgraphServer\obj\Debug\AgraphServer.pdb
+C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\AgraphServer\bin\Debug\AgraphServer.exe.config
+C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\AgraphServer\obj\Debug\AgraphServer.exe
+C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\AgraphServer\obj\Debug\AgraphServer.pdb

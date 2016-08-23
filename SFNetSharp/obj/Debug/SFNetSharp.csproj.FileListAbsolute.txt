@@ -7,3 +7,9 @@ C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\AgraphServer\obj\Debug\SFNetShar
 C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe.config
 C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.exe
 C:\Users\Joel\Downloads\AgraphServer\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.pdb
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe.config
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.exe
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.pdb
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.csprojResolveAssemblyReference.cache
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe
+C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.pdb

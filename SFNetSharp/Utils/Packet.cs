@@ -10,13 +10,14 @@ namespace Utils
     class Packet
     {
         MemoryStream MemoryStream;
+        byte[] Buffer;
         int CurrentWritePos = 0;
         int CurrentReadPos = 0;
 
         /// <summary>
         /// Set the internal max buffer size.
         /// </summary>
-        public int MaxBufferSize { get; set; } = 1024;
+        public static int MaxBufferSize { get; set; } = 1024;
 
         public Packet()
         {
@@ -25,11 +26,29 @@ namespace Utils
             MemoryStream.SetLength(MaxBufferSize);
         }
 
+        /// <summary>
+        /// Create a packet 
+        /// </summary>
+        /// <param name="packet"></param>
+        public Packet(byte[] bytes)
+        {
+            Buffer = bytes;
+
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(Buffer);
+        }
+
+        /// <summary>
+        /// Clear the internal buffer.
+        /// </summary>
         public void Clear()
         {
-            MemoryStream.SetLength(0);
-            MemoryStream.SetLength(MaxBufferSize);
-            MemoryStream.Position = 0;
+            if (MemoryStream != null)
+            {
+                MemoryStream.SetLength(0);
+                MemoryStream.SetLength(MaxBufferSize);
+                MemoryStream.Position = 0;
+            }
             CurrentReadPos = 0;
             CurrentWritePos = 0;
         }
@@ -43,8 +62,17 @@ namespace Utils
             byte[] b = BitConverter.GetBytes(value);
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
+            MemoryStream.Write(b, CurrentWritePos, CurrentWritePos + b.Length);
             CurrentWritePos += b.Length;
+        }
+
+        /// <summary>
+        /// Read an unsigned byte from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public byte ReadByte()
+        {
+            return Buffer[CurrentReadPos];
         }
 
         /// <summary>
@@ -56,8 +84,20 @@ namespace Utils
             byte[] b = BitConverter.GetBytes(value);
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            MemoryStream.Write(b, CurrentWritePos, CurrentWritePos + b.Length );
+            CurrentWritePos += b.Length ;
+        }
+
+        /// <summary>
+        /// Read a short from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public short ReadShort()
+        {
+            short value = BitConverter.ToInt16(Buffer, CurrentReadPos);
+            CurrentReadPos += sizeof(short);
+
+            return value;
         }
 
         /// <summary>
@@ -69,8 +109,20 @@ namespace Utils
             byte[] b = BitConverter.GetBytes(value);
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            MemoryStream.Write(b, CurrentWritePos, b.Length - 1);
+            CurrentWritePos += b.Length - 1;
+        }
+
+        /// <summary>
+        /// Read an unsigned short from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public ushort ReadUShort()
+        {
+            ushort value = BitConverter.ToUInt16(Buffer, CurrentReadPos);
+            CurrentReadPos += sizeof(ushort);
+
+            return value;
         }
 
         /// <summary>
@@ -84,6 +136,17 @@ namespace Utils
                 Array.Reverse(b);
             MemoryStream.Write(b, CurrentWritePos, b.Length);
             CurrentWritePos += b.Length;
+        }
+        /// <summary>
+        /// Read an integer from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public int ReadInt()
+        {
+
+            int value = BitConverter.ToInt32(Buffer, CurrentReadPos);
+            CurrentReadPos += sizeof(int);
+            return value;
         }
 
         /// <summary>
@@ -100,16 +163,27 @@ namespace Utils
         }
 
         /// <summary>
-        /// Write a signed float to the buffer.
+        /// Read an unsigned integer from the buffer.
         /// </summary>
-        /// <param name="value"></param>
-        public void WriteFloat(float value)
+        public uint ReadUInt()
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            uint value = BitConverter.ToUInt32(Buffer, CurrentReadPos);
+            CurrentReadPos += sizeof(uint);
+
+            return value;
+        }
+
+        
+        /// <summary>
+        /// Read a float from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public double ReadDouble()
+        {
+            double value = BitConverter.ToDouble(Buffer, CurrentReadPos);
+            CurrentReadPos += sizeof(uint);
+
+            return value;
         }
 
         /// <summary>

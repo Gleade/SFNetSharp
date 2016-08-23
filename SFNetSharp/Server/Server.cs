@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace SFNetSharp.Server
     {
         private static TcpListener Listener {get;set;}
         private static TcpClient mClient;
+       
         private static Thread mThread;
         private static bool Running = false;
         private static List<Client> mClients;
@@ -26,8 +28,8 @@ namespace SFNetSharp.Server
             AvailbleClientIDs = new List<int>(); // Create our List of ID's
             UsedClientIDs = new List<int>();
             GenerateUniqueIDList(); // Generate our ID's
-            
-            Listener = new TcpListener(port);
+            IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, port);
+            Listener = new TcpListener(endpoint);
 
             // Listen on the port
             try
@@ -47,9 +49,45 @@ namespace SFNetSharp.Server
             Console.WriteLine("Server thread started.");
         }
 
-        public static void Send(Packet packet)
+        /// <summary>
+        /// Send a packet to all connected clients.
+        /// </summary>
+        /// <param name="packet"></param>
+        public static void SendGlobal(Packet packet)
         {
+            foreach(Client client in mClients)
+            {
+                client.Send(packet);
+            }
 
+            Console.WriteLine("Sent: " + packet.GetSize().ToString() + " bytes to all clients.");
+        }
+
+        /// <summary>
+        /// Send a packet to a specified client.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="packet"></param>
+        public static void Send(Client client, Packet packet)
+        {
+            client.Send(packet);
+        }
+
+        /// <summary>
+        /// Send a packet to a specified client via ID.
+        /// </summary>
+        /// <param name="clientID"></param>
+        /// <param name="packet"></param>
+        public static void Send(uint clientID, Packet packet)
+        {
+            foreach(Client client in mClients)
+            {
+                if(client.ID == clientID)
+                {
+                    client.Send(packet);
+                    break;
+                }
+            }
         }
 
         public static void Update()
@@ -58,8 +96,7 @@ namespace SFNetSharp.Server
             while (Running)
             {
                 CheckNewConnections();
-                CheckDisconnections();
-              
+                CheckDisconnections();              
             }
 
         }
@@ -71,9 +108,10 @@ namespace SFNetSharp.Server
         {
             try
             {
-                mClient = Listener.AcceptTcpClient();
-
-                Client newClient = new Client(mClient);
+                TcpClient client = Listener.AcceptTcpClient();
+                client.Client.Blocking = true;
+                Client newClient = new Client(client);
+                client.Client.Blocking = false;
                 // Only add a new connected client if we have room on the server
                 if (mClients.Count < MaxClients)
                 {
@@ -98,7 +136,7 @@ namespace SFNetSharp.Server
             }
             catch (Exception ex)
             {
-
+              
             }
         }
 
@@ -133,7 +171,7 @@ namespace SFNetSharp.Server
         /// Unassign a client ID from our UsedClientID's list.
         /// </summary>
         /// <param name="client"></param>
-        public static void UnassignClientID(Client client)
+        private static void UnassignClientID(Client client)
         {
             try
             {
@@ -179,7 +217,7 @@ namespace SFNetSharp.Server
             }
         }
 
-        public static void GenerateUniqueIDList()
+        private static void GenerateUniqueIDList()
         {
             // Initalize our RNG
             int min = 0;

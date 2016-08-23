@@ -43,18 +43,23 @@ namespace SFNetSharp.Server
         public void Send(Packet packet)
         {
             Stream.Write(packet.GetBytes(), 0, packet.GetSize());
-            Stream.Flush();
+            //Stream.Flush();
         }
 
+        /// <summary>
+        /// Receive a new packet from the client.
+        /// </summary>
+        /// <param name="packet"></param>
         public void Receive(Packet packet)
         {
-            byte[] bytes = new byte[packet.MaxBufferSize];
+            byte[] bytes = new byte[Packet.MaxBufferSize];
 
             int receivedBytesSize = 0;
 
             while((receivedBytesSize = Stream.Read(bytes, 0, bytes.Length)) != 0)
             {
-
+                Packet newPacket = new Packet(bytes);
+                SocketListenerManager.Post(newPacket);
             }
         }
 

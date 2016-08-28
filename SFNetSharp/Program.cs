@@ -17,9 +17,12 @@ namespace SFNetSharp
             Client.Client.Connect("127.0.0.1", 1337);
             SocketListenerManager.AddListener(new LoginListener());
 
+            string user = "Joel";
+            string pass = "Test";
             Packet testPacket = new Packet();
             testPacket.WriteByte(0);
-            testPacket.WriteShort(1);
+            testPacket.WriteString(user);
+            testPacket.WriteString(pass.GetHashCode().ToString());
 
             System.Threading.Thread.Sleep(1000);
             Server.Server.SendGlobal(testPacket);

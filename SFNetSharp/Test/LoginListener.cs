@@ -17,11 +17,12 @@ namespace SFNetSharp.Test
             switch(packetID)
             {
                 case PacketID.CLIENT_LOGIN: // Login attempt, authenticate
-                    Console.WriteLine("Login attempt received.");
+                    string user = packet.ReadString();
+                    string pass = packet.ReadString();
+                    Console.WriteLine("Login attempt received user: " + user + " " + pass);
                     break;
 
                 default: // Unknown packet ID
-                    Console.WriteLine("Unknown packet received.");
                     break;
             }
         }

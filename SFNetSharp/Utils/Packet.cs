@@ -10,9 +10,9 @@ namespace Utils
     class Packet
     {
         MemoryStream MemoryStream;
+        BinaryWriter BinaryWriter;
+        BinaryReader BinaryReader;
         byte[] Buffer;
-        int CurrentWritePos = 0;
-        int CurrentReadPos = 0;
 
         /// <summary>
         /// Set the internal max buffer size.
@@ -23,7 +23,9 @@ namespace Utils
         {
             // Create a new memory stream and set it's max size
             MemoryStream = new MemoryStream();
-            MemoryStream.SetLength(MaxBufferSize);
+           // MemoryStream.SetLength(MaxBufferSize);
+
+            BinaryWriter = new BinaryWriter(MemoryStream);
         }
 
         /// <summary>
@@ -33,9 +35,12 @@ namespace Utils
         public Packet(byte[] bytes)
         {
             Buffer = bytes;
+            MemoryStream = new MemoryStream();
+            MemoryStream.Write(Buffer, 0, Buffer.Length);
+            MemoryStream.Seek(0, SeekOrigin.Begin);
+            BinaryReader = new BinaryReader(MemoryStream);
 
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(Buffer);
+           
         }
 
         /// <summary>
@@ -49,8 +54,11 @@ namespace Utils
                 MemoryStream.SetLength(MaxBufferSize);
                 MemoryStream.Position = 0;
             }
-            CurrentReadPos = 0;
-            CurrentWritePos = 0;
+
+            if (BinaryWriter != null)
+            {
+                BinaryWriter.Flush();
+            }
         }
 
         /// <summary>
@@ -59,11 +67,7 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteByte(byte value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, CurrentWritePos + b.Length);
-            CurrentWritePos += b.Length;
+            BinaryWriter.Write(value);
         }
 
         /// <summary>
@@ -72,7 +76,7 @@ namespace Utils
         /// <returns></returns>
         public byte ReadByte()
         {
-            return Buffer[CurrentReadPos];
+            return BinaryReader.ReadByte();
         }
 
         /// <summary>
@@ -81,11 +85,7 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteShort(short value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, CurrentWritePos + b.Length );
-            CurrentWritePos += b.Length ;
+            BinaryWriter.Write(value);
         }
 
         /// <summary>
@@ -94,10 +94,7 @@ namespace Utils
         /// <returns></returns>
         public short ReadShort()
         {
-            short value = BitConverter.ToInt16(Buffer, CurrentReadPos);
-            CurrentReadPos += sizeof(short);
-
-            return value;
+            return BinaryReader.ReadInt16();
         }
 
         /// <summary>
@@ -106,11 +103,7 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteUShort(ushort value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length - 1);
-            CurrentWritePos += b.Length - 1;
+            BinaryWriter.Write(value);
         }
 
         /// <summary>
@@ -119,10 +112,8 @@ namespace Utils
         /// <returns></returns>
         public ushort ReadUShort()
         {
-            ushort value = BitConverter.ToUInt16(Buffer, CurrentReadPos);
-            CurrentReadPos += sizeof(ushort);
 
-            return value;
+            return BinaryReader.ReadUInt16();
         }
 
         /// <summary>
@@ -131,11 +122,7 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteInt(int value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            BinaryWriter.Write(value);
         }
         /// <summary>
         /// Read an integer from the buffer.
@@ -143,10 +130,7 @@ namespace Utils
         /// <returns></returns>
         public int ReadInt()
         {
-
-            int value = BitConverter.ToInt32(Buffer, CurrentReadPos);
-            CurrentReadPos += sizeof(int);
-            return value;
+            return BinaryReader.ReadInt32();
         }
 
         /// <summary>
@@ -155,11 +139,7 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteUInt(uint value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            BinaryWriter.Write(value);
         }
 
         /// <summary>
@@ -167,24 +147,9 @@ namespace Utils
         /// </summary>
         public uint ReadUInt()
         {
-            uint value = BitConverter.ToUInt32(Buffer, CurrentReadPos);
-            CurrentReadPos += sizeof(uint);
-
-            return value;
+            return BinaryReader.ReadUInt32();
         }
 
-        
-        /// <summary>
-        /// Read a float from the buffer.
-        /// </summary>
-        /// <returns></returns>
-        public double ReadDouble()
-        {
-            double value = BitConverter.ToDouble(Buffer, CurrentReadPos);
-            CurrentReadPos += sizeof(uint);
-
-            return value;
-        }
 
         /// <summary>
         /// Write a signed double to the buffer.
@@ -192,11 +157,36 @@ namespace Utils
         /// <param name="value"></param>
         public void WriteDouble(double value)
         {
-            byte[] b = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(b);
-            MemoryStream.Write(b, CurrentWritePos, b.Length);
-            CurrentWritePos += b.Length;
+            BinaryWriter.Write(value);
+        }
+
+        /// <summary>
+        /// Read a double from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public double ReadDouble()
+        {
+
+            return BinaryReader.ReadDouble();
+        }
+
+        /// <summary>
+        /// Write a string to the  buffer.
+        /// </summary>
+        /// <param name="str"></param>
+        public void WriteString(string str)
+        {
+            BinaryWriter.Write(str);
+        }
+
+        /// <summary>
+        /// Read a string from the buffer.
+        /// Requires knowing the length of the string to receive.
+        /// </summary>
+        /// <returns></returns>
+        public string ReadString()
+        {
+            return BinaryReader.ReadString();
         }
 
         /// <summary>
@@ -205,17 +195,7 @@ namespace Utils
         /// <returns></returns>
         public byte [] GetBytes()
         {
-            // Create a temp stream to store our bytes,
-            // this will allow us to make the byte array as small as possible
-            MemoryStream tempMemStream = new MemoryStream();
-            tempMemStream.SetLength(CurrentWritePos);
-
-            // Write all of the data from our memory stream into the temporary stream
-            tempMemStream.Write(MemoryStream.ToArray(), 0, CurrentWritePos);
-
-            // Return the total byte array
-            return tempMemStream.ToArray();
-            
+           return MemoryStream.ToArray();
         }
 
         /// <summary>
@@ -224,8 +204,7 @@ namespace Utils
         /// <returns></returns>
         public int GetSize()
         {
-            int size = CurrentWritePos + CurrentReadPos;
-            return size;
+            return MemoryStream.ToArray().Length;
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using SFNetSharp.Test;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utils;
 
 namespace SFNetSharp
@@ -26,9 +22,11 @@ namespace SFNetSharp
 
             System.Threading.Thread.Sleep(1000);
             Server.Server.SendGlobal(testPacket);
-       
 
-
+            Database.DatabaseManager.Connect("localhost", "jinx-studio", "root", "password");
+            Database.Table table = Database.DatabaseManager.RunQuery("SELECT * FROM website_account WHERE website_username = 'dev'");
+            string password = table.GetData<string>("website_password");
+            Console.WriteLine("Password: " + password);
 
             Console.Read();
             

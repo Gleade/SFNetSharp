@@ -13,3 +13,10 @@ C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\obj\Debug\S
 C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.csprojResolveAssemblyReference.cache
 C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe
 C:\Users\joelc\OneDrive\Documents\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.pdb
+G:\Github\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe.config
+G:\Github\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.exe
+G:\Github\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.pdb
+G:\Github\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe
+G:\Github\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.pdb
+G:\Github\SFNetSharp\SFNetSharp\bin\Debug\MySql.Data.dll
+G:\Github\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.csprojResolveAssemblyReference.cache

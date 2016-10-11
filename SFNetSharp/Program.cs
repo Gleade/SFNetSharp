@@ -29,7 +29,8 @@ namespace SFNetSharp
             Console.WriteLine("Password: " + password);
 
             Console.Read();
-            
+
+            /**/
         }
     }
 }

@@ -20,3 +20,6 @@ G:\Github\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe
 G:\Github\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.pdb
 G:\Github\SFNetSharp\SFNetSharp\bin\Debug\MySql.Data.dll
 G:\Github\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.csprojResolveAssemblyReference.cache
+D:\Repositories\SFNetSharp\SFNetSharp\bin\Debug\SFNetSharp.exe.config
+D:\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.exe
+D:\Repositories\SFNetSharp\SFNetSharp\obj\Debug\SFNetSharp.pdb

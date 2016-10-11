@@ -30,19 +30,6 @@ namespace SFNetSharp
 
             Console.Read();
 
-            /*
-
-
-
-
-
-
-
-
-
-
-    */
-            
             
         }
     }

@@ -1,5 +1,5 @@
 # SFNetSharp
-SFNetSharp (Simple Fast Networking C#) A simple Java networking library for TCP (no UDP yet) server-client connections.
+SFNetSharp (Simple Fast Networking) A simple C# networking library for TCP (no UDP yet) server-client connections.
 
 # SFNet
 
